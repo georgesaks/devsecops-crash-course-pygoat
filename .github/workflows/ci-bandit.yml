@@ -4,23 +4,31 @@ on: [push]
 
 jobs:
   sast_scan:
-    name: Run Banditt Scan
+    name: Run Bandit Scan
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Pythonn
-      uses: actions/setup-pyhton@v2
-      with:
-        python-version: 3.8
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
 
-    - name: Install Banditt
-      run: pip install bandit
+      - name: Install Bandit
+        run: pip install bandit
 
-    - name: Run Banditt Scan
-       run: bandit -ll -ii -r .
+      - name: Run Bandit Scan
+        run: bandit -ll -ii -r . -f json -o bandit-report.json
+
+      - name: Upload Bandit Report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: bandit-report
+          path: bandit-report.json
+
 
        
        
