@@ -1,0 +1,29 @@
+name: CII
+
+on: [push]
+
+jobs:
+  sast_scan:
+    name: Run Banditt Scan
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Pythonn
+      uses: actions/setup-pyhton@v2
+      with:
+        python-version: 3.8
+
+    - name: Install Banditt
+      run: pip install bandit
+
+    - name: Run Banditt Scan
+       run: bandit -r .
+
+       
+       
+    -    
+
+    
